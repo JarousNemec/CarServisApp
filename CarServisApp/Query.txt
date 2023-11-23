@@ -1,20 +1,19 @@
 ﻿-- vybere všechny zákazníky
-select Name, Surname, Email, Phone from Customer C
+select CustomerId ,(Name +' '+Surname) as Name from Customer C
 
-
--- vybere zákazníky a detaily o nich
-select Name, Surname, Email, Phone, Country, City, Street, Housenumber, Brand, Model, Spz, Vin from Customer C
+-- vybere detaily o zákazníkovy s id = 1
+select CustomerId, (Name +' '+Surname) as Name, Email, Phone, Country, City, Postcode, Street, Housenumber from Customer C
 INNER JOIN Address A on A.AddressId = C.AddressId
-INNER JOIN CustomerCars CC on CC.CustomerId = C.CustomerId
-INNER JOIN Car on CC.CarId = Car.CarId
+Where C.CustomerId = 1
 
 
 -- vybere všechny servisní prohlídky
-select Description, SpareParts, Date from ServiceIntervention
+select InterventionId ,Description, Date from ServiceIntervention
 
--- vybere všechny servisní prohlídky i s detaily
-select Description, SpareParts, Date, (Customer.Name + ' '+ Customer.Surname) as Customer , (E.Name + ' '+ E.Surname) as Employee, Brand, Model, Spz, Vin from ServiceIntervention
+-- vybere detaily servisní prohlídky s id = 1
+select InterventionId ,Description, SpareParts, Date, (Customer.Name + ' '+ Customer.Surname) as Customer , (E.Name + ' '+ E.Surname) as Employee, Brand, Model, Spz, Vin from ServiceIntervention
 INNER JOIN Car C on ServiceIntervention.CarId = C.CarId
 INNER JOIN Employees E on ServiceIntervention.EmployeeId = E.EmployeeId
 INNER JOIN CustomerCars CC on C.CarId = CC.CarId
 INNER JOIN Customer on CC.CustomerId = Customer.CustomerId
+where InterventionId = 1
